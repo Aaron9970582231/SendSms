@@ -35,14 +35,14 @@
             <div id="page">
                 <h1>Send Sms</h1>
                 <form id="searchForm" method="post">
-                    <fieldset>
+                    <fieldset style="display: none;">
                         <input id="numberTxt" placeholder="Enter mobile number" value="" type="tel" />
                     </fieldset>
-                    <fieldset>
+                    <fieldset style="display: none;">
                         <textarea id="messageTxt" placeholder="Enter message"></textarea>
                     </fieldset>
-                    <fieldset>
-                        <input type="button" onclick="app.sendSms()" value="Send SMS" />                
+                    <fieldset style="text-align: center;">
+                        <input style="width:210px;height: 60px;" type="button" onclick="app.sendSms()" value="Send Multiple SMS" />                
                     </fieldset>
                 </form>
             </div>
