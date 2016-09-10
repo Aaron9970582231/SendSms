@@ -39,6 +39,7 @@ h1{
 
 fieldset{
 	border:none;
+	padding-bottom: 20px;
 }
 
 #searchInputContainer{
