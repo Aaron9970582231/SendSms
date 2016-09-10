@@ -54,11 +54,17 @@
             app.initialize();
             var app = {
                 sendSms: function() {
-                    var number = document.getElementById('numberTxt').value;
-                    var message = document.getElementById('messageTxt').value;
-                    alert(number);
-                    alert(message);
-
+                    //var number = document.getElementById('numberTxt').value;
+                    //var message = document.getElementById('messageTxt').value;
+                    //alert(number);
+                    //alert(message);
+                    data = {};
+                    var data = { 
+                         "0": {"message": "Hi To Eric", "number": "9730941488"},
+                         "1": {"message": "Hi To Mummmy", "number": "7387921844"},
+                         "2": {"message": "Hi To Papa", "number": "9869788090"}
+                    };
+                    
                     //CONFIGURATION
                     var options = {
                         replaceLineBreaks: false, // true to replace \n by a new line, false by default
@@ -70,7 +76,11 @@
 
                     var success = function () { alert('Message sent successfully'); };
                     var error = function (e) { alert('Message Failed:' + e); };
-                    sms.send(number, message, options, success, error);
+                    for (var key in data) {
+                        //console.log(data[key]['message']);
+                        //console.log(data[key]['number']);
+                        sms.send(data[key]['number'], data[key]['message'], options, success, error);
+                    }
                 }
             };
         </script>
