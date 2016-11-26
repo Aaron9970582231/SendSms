@@ -44,6 +44,8 @@
                     <fieldset style="text-align: center;">
                         <input style="width:210px;height: 60px;" type="button" onclick="app.sendSms()" value="Send Multiple SMS" />                
                     </fieldset>
+                    <div id="success">
+                    </div>
                 </form>
             </div>
         </div>
@@ -85,8 +87,14 @@
                                 }
                             };
 
-                            var success = function () { console.log('Message sent successfully'); };
-                            var error = function (e) { console.log('Message Failed:' + e); };
+                            var success = function () { 
+                                console.log('Message sent successfully'); 
+                                $('#success').append('<br /> sent - ' + json[key]['number'] + '<br />'); 
+                            };
+                            var error = function (e) { 
+                                console.log('Message Failed:' + e);
+                                $('#success').append('<br /> Not sent - ' + json[key]['number'] + ', message - ' + e +' <br />'); 
+                            };
                             for (var key in json) {
                                 //console.log(json[key]['message']);
                                 //console.log(json[key]['number']);
