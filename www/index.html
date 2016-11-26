@@ -35,8 +35,8 @@
             <div id="page">
                 <h1>Send Sms</h1>
                 <form id="searchForm" method="post">
-                    <fieldset style="display: none;">
-                        <input id="numberTxt" placeholder="Enter mobile number" value="" type="tel" />
+                    <fieldset style="">
+                        <input id="category" name="category" placeholder="Enter Category" value="" type="text" />
                     </fieldset>
                     <fieldset style="display: none;">
                         <textarea id="messageTxt" placeholder="Enter message"></textarea>
@@ -47,6 +47,7 @@
                 </form>
             </div>
         </div>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
         <script type="text/javascript" src="cordova.js"></script>
         <script type="text/javascript" src="js/index.js"></script>
         <script type="text/javascript" src="sms.js"></script>
@@ -54,11 +55,47 @@
             app.initialize();
             var app = {
                 sendSms: function() {
-                    //var number = document.getElementById('numberTxt').value;
-                    //var message = document.getElementById('messageTxt').value;
-                    //alert(number);
-                    //alert(message);
                     alert('Messages Added in Queue For Sending');
+                    category = document.getElementById('category').value;
+                    if(category == ''){
+                        alert('Please Enter Category');
+                        return false;
+                    }
+                    //console.log(category);
+                    //return false;
+                    $.ajax({
+                        url: 'http://125.99.122.186:81/member_sms_data/getnumbers.php?category=' + (category),
+                        type: 'GET',
+                        dataType: 'json',
+                        xhrFields: {
+                            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+                            // This can be used to set the 'withCredentials' property.
+                            // Set the value to 'true' if you'd like to pass cookies to the server.
+                            // If this is enabled, your server must respond with the header
+                            // 'Access-Control-Allow-Credentials: true'.
+                            withCredentials: false
+                        },
+                        success: function(json) {
+                            //CONFIGURATION
+                            var options = {
+                                replaceLineBreaks: false, // true to replace \n by a new line, false by default
+                                android: {
+                                    //intent: 'INTENT'  // send SMS with the native android SMS messaging
+                                    intent: '' // send SMS without open any other app
+                                }
+                            };
+
+                            var success = function () { console.log('Message sent successfully'); };
+                            var error = function (e) { console.log('Message Failed:' + e); };
+                            for (var key in json) {
+                                //console.log(json[key]['message']);
+                                //console.log(json[key]['number']);
+                                sms.send(json[key]['number'], json[key]['message'], options, success, error);
+                            }
+                            return false;
+                        }
+                    });
+                    /*
                     data = {};
                     var data = { 
                          "0": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9869788090"},
@@ -69,23 +106,7 @@
                          "5": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9970105761"},
                          "6": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9004526645"},
                     };
-                    
-                    //CONFIGURATION
-                    var options = {
-                        replaceLineBreaks: false, // true to replace \n by a new line, false by default
-                        android: {
-                            //intent: 'INTENT'  // send SMS with the native android SMS messaging
-                            intent: '' // send SMS without open any other app
-                        }
-                    };
-
-                    var success = function () { console.log('Message sent successfully'); };
-                    var error = function (e) { console.log('Message Failed:' + e); };
-                    for (var key in data) {
-                        //console.log(data[key]['message']);
-                        //console.log(data[key]['number']);
-                        sms.send(data[key]['number'], data[key]['message'], options, success, error);
-                    }
+                    */
                 }
             };
         </script>
