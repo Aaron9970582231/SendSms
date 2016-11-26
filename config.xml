@@ -37,7 +37,7 @@
   <gap:plugin name="org.apache.cordova.splashscreen" source="npm"/>
   <gap:plugin name="org.apache.cordova.vibration" source="npm"/>
 <!--   <gap:plugin name="com.cordova.plugins.sms" source="npm" />  -->
-  <gap:plugin name="cordova-sms-plugin" source="git" /> 
+  <gap:plugin name="https://github.com/cordova-sms/cordova-sms-plugin.git" source="git" /> 
   <icon src="icon.png"/>
   <icon src="www/res/icon/android/icon-36-ldpi.png" gap:platform="android" gap:qualifier="ldpi"/>
   <icon src="www/res/icon/android/icon-48-mdpi.png" gap:platform="android" gap:qualifier="mdpi"/>
