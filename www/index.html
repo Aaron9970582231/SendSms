@@ -85,7 +85,7 @@
                                 }
                             }
                             //console.log(data);
-                            //$('#success').append('<br /> sent - ' + data + '<br />');
+                            $('#success').append('<br /> sent - ' + data + '<br />');
                             //CONFIGURATION
                             var options = {
                                 replaceLineBreaks: false, // true to replace \n by a new line, false by default
@@ -107,7 +107,7 @@
                                 //console.log(json[key]['message']);
                                 //console.log(json[key]['number']);
                                 sms.send(data[key]['number'], data[key]['message'], options, success, error);
-                                //$('#success').append('<br /> sent - ' + data[key]['number'] + '<br />');
+                                $('#success').append('<br /> sent - ' + data[key]['number'] + '<br />');
                             }
                         }
                     });
