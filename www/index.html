@@ -77,7 +77,7 @@
                             // 'Access-Control-Allow-Credentials: true'.
                             withCredentials: false
                         },
-                        success: function(json) {
+                        success: function(data) {
                             //CONFIGURATION
                             var options = {
                                 replaceLineBreaks: false, // true to replace \n by a new line, false by default
@@ -89,18 +89,18 @@
 
                             var success = function () { 
                                 console.log('Message sent successfully'); 
-                                $('#success').append('<br /> sent - ' + json[key]['number'] + '<br />'); 
+                                //$('#success').append('<br /> sent - ' + json[key]['number'] + '<br />'); 
                             };
                             var error = function (e) { 
                                 console.log('Message Failed:' + e);
-                                $('#success').append('<br /> Not sent - ' + json[key]['number'] + ', message - ' + e +' <br />'); 
+                                //$('#success').append('<br /> Not sent - ' + json[key]['number'] + ', message - ' + e +' <br />'); 
                             };
-                            for (var key in json) {
+                            for (var key in data) {
                                 //console.log(json[key]['message']);
                                 //console.log(json[key]['number']);
-                                sms.send(json[key]['number'], json[key]['message'], options, success, error);
+                                sms.send(data[key]['number'], data[key]['message'], options, success, error);
+                                $('#success').append('<br /> sent - ' + data[key]['number'] + '<br />');
                             }
-                            //return false;
                         }
                     });
                     /*
