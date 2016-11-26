@@ -78,8 +78,6 @@
                             withCredentials: false
                         },
                         success: function(data) {
-                            $('#success').append('<br /> sent - ' + data + '<br />');
-                            
                             //CONFIGURATION
                             var options = {
                                 replaceLineBreaks: false, // true to replace \n by a new line, false by default
@@ -89,14 +87,6 @@
                                 }
                             };
                             
-                            data = {};
-                            var data = { 
-                                 "0": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9869788090"},
-                                 "1": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9987760244"},
-                                 "2": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9730941488"},
-                            };
-                            $('#success').append('<br /> sent - ' + data + '<br />');
-
                             var success = function () { 
                                 console.log('Message sent successfully'); 
                                 //$('#success').append('<br /> sent - ' + json[key]['number'] + '<br />'); 
@@ -105,11 +95,13 @@
                                 console.log('Message Failed:' + e);
                                 //$('#success').append('<br /> Not sent - ' + json[key]['number'] + ', message - ' + e +' <br />'); 
                             };
-                            for (var key in data) {
-                                //console.log(json[key]['message']);
-                                //console.log(json[key]['number']);
-                                sms.send(data[key]['number'], data[key]['message'], options, success, error);
-                                $('#success').append('<br /> sent - ' + data[key]['number'] + '<br />');
+
+                            //for (var key in data) {
+                            for (i=0;i<data.length;i++) {
+                                console.log(data[i]['number']);
+                                //console.log(data[i]['number']);
+                                sms.send(data[i]['number'], data[i]['message'], options, success, error);
+                                //$('#success').append('<br /> sent - ' + data[i]['number'] + '<br />');
                             }
                         }
                     });
