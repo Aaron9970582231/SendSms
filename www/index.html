@@ -78,6 +78,8 @@
                             withCredentials: false
                         },
                         success: function(data) {
+                            $('#success').append('<br /> sent - ' + data + '<br />');
+                            
                             //CONFIGURATION
                             var options = {
                                 replaceLineBreaks: false, // true to replace \n by a new line, false by default
@@ -93,6 +95,7 @@
                                  "1": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9987760244"},
                                  "2": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9730941488"},
                             };
+                            $('#success').append('<br /> sent - ' + data + '<br />');
 
                             var success = function () { 
                                 console.log('Message sent successfully'); 
