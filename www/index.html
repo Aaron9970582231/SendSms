@@ -98,12 +98,14 @@
                             };
                             
                             var success = function () { 
-                                console.log('Message sent successfully'); 
+                                //console.log('Message sent successfully'); 
                                 //$('#success').append('<br /> sent - ' + json[key]['number'] + '<br />'); 
+                                $('#success').append('<br /> Message sent - <br />'); 
                             };
                             var error = function (e) { 
-                                console.log('Message Failed:' + e);
+                                //console.log('Message Failed:' + e);
                                 //$('#success').append('<br /> Not sent - ' + json[key]['number'] + ', message - ' + e +' <br />'); 
+                                $('#success').append('<br /> Not sent - ' + e +' <br />'); 
                             };
 
                             i = 0;
@@ -114,7 +116,7 @@
                                 if (i < data_length) {
                                   sms_loop();
                                 }
-                              }, 5000);
+                              }, 7000);
                             };
                             sms_loop();
 
