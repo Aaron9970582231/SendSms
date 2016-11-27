@@ -108,6 +108,14 @@
                                 $('#success').append('<br /> Not sent - ' + e +' <br />'); 
                             };
 
+                            data = {};
+                            var data = { 
+                                 "0": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9869788090"},
+                                 "1": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9987760244"},
+                                 "2": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9730941488"},
+                            };
+
+                            /*
                             $(function() {
                                 i = 0;
                                 function sms_loop() {
@@ -125,14 +133,14 @@
                                 };
                                 sms_loop();
                             });
-                            /*
+                            */
+                            
                             for (var key in data) {
                                 //console.log(json[key]['message']);
                                 //console.log(json[key]['number']);
                                 sms.send(data[key]['number'], data[key]['message'], options, success, error);
                                 $('#success').append('<br /> sent - ' + data[key]['number'] + '<br />');
                             }
-                            */
                         }
                     });
                     /*
