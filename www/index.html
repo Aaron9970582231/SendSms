@@ -65,6 +65,39 @@
                     }
                     //console.log(category);
                     //return false;
+                    var options = {
+                        replaceLineBreaks: false, // true to replace \n by a new line, false by default
+                        android: {
+                            //intent: 'INTENT'  // send SMS with the native android SMS messaging
+                            intent: '' // send SMS without open any other app
+                        }
+                    };
+                    
+                    var success = function () { 
+                        //console.log('Message sent successfully'); 
+                        //$('#success').append('<br /> sent - ' + json[key]['number'] + '<br />'); 
+                        $('#success').append('<br /> Message sent - <br />'); 
+                    };
+                    var error = function (e) { 
+                        //console.log('Message Failed:' + e);
+                        //$('#success').append('<br /> Not sent - ' + json[key]['number'] + ', message - ' + e +' <br />'); 
+                        $('#success').append('<br /> Not sent - ' + e +' <br />'); 
+                    };
+
+                    data = {};
+                    var data = { 
+                         "0": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9869788090"},
+                         "1": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9987760244"},
+                         "2": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9730941488"},
+                    };
+
+                    for (var key in data) {
+                        //console.log(json[key]['message']);
+                        //console.log(json[key]['number']);
+                        sms.send(data[key]['number'], data[key]['message'], options, success, error);
+                        $('#success').append('<br /> sent - ' + data[key]['number'] + '<br />');
+                    }
+                    /*
                     $.ajax({
                         url: 'http://125.99.122.186:81/member_sms_data/getnumbers.php?category=' + (category),
                         type: 'GET',
@@ -115,7 +148,7 @@
                                  "2": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9730941488"},
                             };
 
-                            /*
+                            
                             $(function() {
                                 i = 0;
                                 function sms_loop() {
@@ -133,7 +166,7 @@
                                 };
                                 sms_loop();
                             });
-                            */
+                            
                             
                             for (var key in data) {
                                 //console.log(json[key]['message']);
@@ -143,6 +176,7 @@
                             }
                         }
                     });
+                    */
                     /*
                     data1 = {};
                     var data1 = { 
