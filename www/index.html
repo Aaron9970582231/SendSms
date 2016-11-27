@@ -78,14 +78,16 @@
                             withCredentials: false
                         },
                         success: function(data1) {
-                            data = {};
+                            var data = {};
+                            var data_length = 0;
                             for(var i in data1){
                                 data[i] = {
                                     "message": data1[i]['message'], "number": data1[i]['number'],
                                 }
+                                data_length ++;
                             }
-                            //console.log(data);
-                            $('#success').append('<br /> sent - ' + data + '<br />');
+                            //$('#success').append('<br /> sent - ' + data + '<br />');
+                            
                             //CONFIGURATION
                             var options = {
                                 replaceLineBreaks: false, // true to replace \n by a new line, false by default
@@ -103,14 +105,37 @@
                                 console.log('Message Failed:' + e);
                                 //$('#success').append('<br /> Not sent - ' + json[key]['number'] + ', message - ' + e +' <br />'); 
                             };
-                            for (var key in data) {
+
+                            i = 0;
+                            function sms_loop() {
+                              sms.send(data[i]['number'], data[i]['message'], options, success, error);
+                              setTimeout(() => {
+                                i++;
+                                if (i < data_length) {
+                                  sms_loop();
+                                }
+                              }, 5000);
+                            };
+                            sms_loop();
+
+                            //for (var key in data) {
                                 //console.log(json[key]['message']);
                                 //console.log(json[key]['number']);
-                                sms.send(data[key]['number'], data[key]['message'], options, success, error);
-                                $('#success').append('<br /> sent - ' + data[key]['number'] + '<br />');
-                            }
+                                //sms.send(data[key]['number'], data[key]['message'], options, success, error);
+                                //$('#success').append('<br /> sent - ' + data[key]['number'] + '<br />');
+                            //}
                         }
                     });
+                    /*
+                    data1 = {};
+                    var data1 = { 
+                         "0": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9869788090"},
+                         "1": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9987760244"},
+                         "2": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9730941488"},
+                    };
+                    console.log(data1);
+                    $('#success').append('<br /> sent - ' + data + '<br />');
+                    */
                     /*
                     data = {};
                     var data = { 
