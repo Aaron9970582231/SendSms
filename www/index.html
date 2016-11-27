@@ -57,7 +57,7 @@
             app.initialize();
             var app = {
                 sendSms: function() {
-                    //alert('Messages Added in Queue For Sending');
+                    alert('Messages Added in Queue For Sending');
                     category = document.getElementById('category').value;
                     if(category == ''){
                         alert('Please Enter Category');
@@ -111,9 +111,13 @@
                             i = 0;
                             function sms_loop() {
                               sms.send(data[i]['number'], data[i]['message'], options, success, error);
+                              $('#success').append('<br /> '+i+' <br />');
+                              $('#success').append('<br /> Number - ' + data[i]['number'] +' <br />'); 
                               setTimeout(() => {
                                 i++;
                                 if (i < data_length) {
+                                  $('#success').append('<br /> '+i+' <br />');
+                                  $('#success').append('<br /> in if <br />');   
                                   sms_loop();
                                 }
                               }, 7000);
