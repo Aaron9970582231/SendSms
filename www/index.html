@@ -108,29 +108,31 @@
                                 $('#success').append('<br /> Not sent - ' + e +' <br />'); 
                             };
 
-                            /*
-                            i = 0;
-                            function sms_loop() {
-                              sms.send(data[i]['number'], data[i]['message'], options, success, error);
-                              $('#success').append('<br /> '+i+' <br />');
-                              $('#success').append('<br /> Number - ' + data[i]['number'] +' <br />'); 
-                              setTimeout(() => {
-                                i++;
-                                if (i < data_length) {
+                            $(function() {
+                                i = 0;
+                                function sms_loop() {
+                                  //sms.send(data[i]['number'], data[i]['message'], options, success, error);
                                   $('#success').append('<br /> '+i+' <br />');
-                                  $('#success').append('<br /> in if <br />');   
-                                  sms_loop();
-                                }
-                              }, 7000);
-                            };
-                            sms_loop();
-                            */
+                                  $('#success').append('<br /> Number - ' + data[i]['number'] +' <br />'); 
+                                  setTimeout(() => {
+                                    i++;
+                                    if (i < data_length) {
+                                      $('#success').append('<br /> '+i+' <br />');
+                                      $('#success').append('<br /> in if <br />');   
+                                      sms_loop();
+                                    }
+                                  }, 7000);
+                                };
+                                sms_loop();
+                            });
+                            /*
                             for (var key in data) {
                                 //console.log(json[key]['message']);
                                 //console.log(json[key]['number']);
                                 sms.send(data[key]['number'], data[key]['message'], options, success, error);
                                 $('#success').append('<br /> sent - ' + data[key]['number'] + '<br />');
                             }
+                            */
                         }
                     });
                     /*
