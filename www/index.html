@@ -104,6 +104,7 @@
                                     for (var i = 0; i < result.rows.length; i++) {
                                         var row = result.rows.item(i);
                                         //console.log(row['number']);
+                                        //console.log(row['message']);
                                         sms.send(row['number'], row['message'], options, success, error);
                                     }
                                 }
@@ -162,7 +163,8 @@
             db = openDatabase(shortName, version, displayName,maxSize);
             // this line will try to create the table User in the database just created/openned
             db.transaction(function(tx){
-                tx.executeSql('CREATE TABLE IF NOT EXISTS member_data(id INTEGER NOT NULL PRIMARY KEY, number TEXT NOT NULL, category TEXT NOT NULL, sent_status INTEGER NOT NULL)', [],nullHandler_create,errorHandler_create);
+                tx.executeSql('DROP TABLE member_data', [],nullHandler_create,errorHandler_create);
+                tx.executeSql('CREATE TABLE IF NOT EXISTS member_data(id INTEGER NOT NULL PRIMARY KEY, number TEXT NOT NULL, message TEXT NOT NULL, category TEXT NOT NULL, sent_status INTEGER NOT NULL)', [],nullHandler_create,errorHandler_create);
             },errorHandler_create,successCallBack_create);
         }
 
@@ -209,7 +211,7 @@
                     db.transaction(function(transaction) { transaction.executeSql("DELETE FROM member_data"); });
                     db.transaction(function(tx){
                         for (j=0;j<data_length;j++) {
-                            tx.executeSql('INSERT INTO member_data (id, number, category, sent_status) values ("'+data[j]["id"]+'", "'+data[j]["number"]+'", "'+data[j]["category"]+'", "'+data[j]["sent_status"]+'")', nullHandler_get,errorHandler_get);
+                            tx.executeSql('INSERT INTO member_data (id, number, message, category, sent_status) values ("'+data[j]["id"]+'", "'+data[j]["number"]+'", "'+data[j]["message"]+'", "'+data[j]["category"]+'", "'+data[j]["sent_status"]+'")', nullHandler_get,errorHandler_get);
                         }        
                     },errorHandler_get,successCallBack_get);
                     // db.transaction(function(transaction) { transaction.executeSql('INSERT INTO member_data (id, number, category, sent_status) values ("1", "9987760244", "A", "0");'); });       
