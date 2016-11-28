@@ -28,9 +28,10 @@
         <meta name="viewport" content="user-scalable=no, initial-scale=1, maximum-scale=1, minimum-scale=1, width=device-width, height=device-height, target-densitydpi=device-dpi" />
         <link rel="stylesheet" type="text/css" href="css/styles.css" />
         <link rel="stylesheet" type="text/css" href="css/index.css" />
+
         <title>Send Sms</title>
     </head>
-    <body>
+    <body onload="onBodyLoad()">
         <div class="main-content">
             <div id="page">
                 <h1>Send Sms</h1>
@@ -43,6 +44,9 @@
                     </fieldset>
                     <fieldset style="text-align: center;">
                         <input style="width:210px;height: 60px;" type="button" onclick="app.sendSms()" value="Send Multiple SMS" />                
+                    </fieldset>
+                    <fieldset style="text-align: center;">
+                        <input style="width:210px;height: 60px;" type="button" onclick="getdata();" value="Get Data" />                
                     </fieldset>
                     <div id="success">
                     </div>
@@ -84,123 +88,146 @@
                         $('#success').append('<br /> Not sent - ' + e +' <br />'); 
                     };
 
+                    /*
                     data = {};
                     var data = { 
                          "0": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9869788090"},
                          "1": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9987760244"},
                          "2": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9730941488"},
                     };
+                    */
 
-                    for (var key in data) {
-                        //console.log(json[key]['message']);
-                        //console.log(json[key]['number']);
-                        sms.send(data[key]['number'], data[key]['message'], options, success, error);
-                        $('#success').append('<br /> sent - ' + data[key]['number'] + '<br />');
-                    }
-                    /*
-                    $.ajax({
-                        url: 'http://125.99.122.186:81/member_sms_data/getnumbers.php?category=' + (category),
-                        type: 'GET',
-                        dataType: 'json',
-                        xhrFields: {
-                            // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
-                            // This can be used to set the 'withCredentials' property.
-                            // Set the value to 'true' if you'd like to pass cookies to the server.
-                            // If this is enabled, your server must respond with the header
-                            // 'Access-Control-Allow-Credentials: true'.
-                            withCredentials: false
-                        },
-                        success: function(data1) {
-                            var data = {};
-                            var data_length = 0;
-                            for(var i in data1){
-                                data[i] = {
-                                    "message": data1[i]['message'], "number": data1[i]['number'],
-                                }
-                                data_length ++;
-                            }
-                            //$('#success').append('<br /> sent - ' + data + '<br />');
-                            
-                            //CONFIGURATION
-                            var options = {
-                                replaceLineBreaks: false, // true to replace \n by a new line, false by default
-                                android: {
-                                    //intent: 'INTENT'  // send SMS with the native android SMS messaging
-                                    intent: '' // send SMS without open any other app
-                                }
-                            };
-                            
-                            var success = function () { 
-                                //console.log('Message sent successfully'); 
-                                //$('#success').append('<br /> sent - ' + json[key]['number'] + '<br />'); 
-                                $('#success').append('<br /> Message sent - <br />'); 
-                            };
-                            var error = function (e) { 
-                                //console.log('Message Failed:' + e);
-                                //$('#success').append('<br /> Not sent - ' + json[key]['number'] + ', message - ' + e +' <br />'); 
-                                $('#success').append('<br /> Not sent - ' + e +' <br />'); 
-                            };
-
-                            data = {};
-                            var data = { 
-                                 "0": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9869788090"},
-                                 "1": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9987760244"},
-                                 "2": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9730941488"},
-                            };
-
-                            
-                            $(function() {
-                                i = 0;
-                                function sms_loop() {
-                                  //sms.send(data[i]['number'], data[i]['message'], options, success, error);
-                                  $('#success').append('<br /> '+i+' <br />');
-                                  $('#success').append('<br /> Number - ' + data[i]['number'] +' <br />'); 
-                                  setTimeout(() => {
-                                    i++;
-                                    if (i < data_length) {
-                                      $('#success').append('<br /> '+i+' <br />');
-                                      $('#success').append('<br /> in if <br />');   
-                                      sms_loop();
+                    db.transaction(function(transaction) {
+                        transaction.executeSql('SELECT * FROM `member_data` WHERE `category` = "'+(category)+'" ', [],    
+                            function(transaction, result) {
+                                if (result.rows.length > 0) {
+                                    for (var i = 0; i < result.rows.length; i++) {
+                                        var row = result.rows.item(i);
+                                        //console.log(row['number']);
+                                        sms.send(row['number'], row['message'], options, success, error);
                                     }
-                                  }, 7000);
-                                };
-                                sms_loop();
-                            });
-                            
-                            
-                            for (var key in data) {
-                                //console.log(json[key]['message']);
-                                //console.log(json[key]['number']);
-                                sms.send(data[key]['number'], data[key]['message'], options, success, error);
-                                $('#success').append('<br /> sent - ' + data[key]['number'] + '<br />');
-                            }
-                        }
-                    });
-                    */
-                    /*
-                    data1 = {};
-                    var data1 = { 
-                         "0": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9869788090"},
-                         "1": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9987760244"},
-                         "2": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9730941488"},
-                    };
-                    console.log(data1);
-                    $('#success').append('<br /> sent - ' + data + '<br />');
-                    */
-                    /*
-                    data = {};
-                    var data = { 
-                         "0": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9869788090"},
-                         "1": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9765911023"},
-                         "2": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9869038725"},
-                         "3": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9987760244"},
-                         "4": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9730941488"},
-                         "5": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9970105761"},
-                         "6": {"message": "Calling all party lovers for Bar nite @ miniclub house Mumbai,Enjoy drinks Live food Counters & dance to the tunes of DJ mervin 2nd Dec 2016 8.30PM.Call 9004065832", "number": "9004526645"},
-                    };
-                    */
+                                }
+                            },errorHandler_send);
+                    },errorHandler_send,nullHandler_send);
+                    return;
                 }
             };
+
+            function nullHandler_send(){
+                console.log('nullHandler_send');
+            }
+            function errorHandler_send(transaction, error){
+                console.log('errorHandler_send');
+            }
+        </script>
+        <script type="text/javascript" charset="utf-8">
+
+        // global variables
+        var db;
+        var shortName = 'WebSqlDB';
+        var version = '1.0';
+        var displayName = 'WebSqlDB';
+        var maxSize = 65535;
+
+        // this is called when an error happens in a transaction
+        function errorHandler_create(transaction, error) {
+           alert('Error: ' + error.message + ' code: ' + error.code);
+
+        }
+
+        // this is called when a successful transaction happens
+        function successCallBack_create() {
+           //alert("DEBUGGING: success");
+           $('#success').append('<br /> WebSqlDB Database Created on onBodyLoad <br />'); 
+        }
+
+        function nullHandler_create(){
+
+        };
+
+        // called when the application loads
+        function onBodyLoad(){
+          // This alert is used to make sure the application is loaded correctly
+          // you can comment this out once you have the application working
+          //alert("DEBUGGING: we are in the onBodyLoad() function");
+          if (!window.openDatabase) {
+            // not all mobile devices support databases  if it does not, the following alert will display
+            // indicating the device will not be albe to run this application
+            alert('Databases are not supported in this browser.');
+            return;
+          }
+
+          // this line tries to open the database base locally on the device
+          // if it does not exist, it will create it and return a database object stored in variable db
+            db = openDatabase(shortName, version, displayName,maxSize);
+            // this line will try to create the table User in the database just created/openned
+            db.transaction(function(tx){
+                tx.executeSql('CREATE TABLE IF NOT EXISTS member_data(id INTEGER NOT NULL PRIMARY KEY, number TEXT NOT NULL, category TEXT NOT NULL, sent_status INTEGER NOT NULL)', [],nullHandler_create,errorHandler_create);
+            },errorHandler_create,successCallBack_create);
+        }
+
+        function getdata() {
+            if (!window.openDatabase) {
+                alert('Databases are not supported in this browser.');
+                return;
+            }
+            category = document.getElementById('category').value;
+            if(category == ''){
+                alert('Please Enter Category');
+                return false;
+            }
+            $.ajax({
+                url: 'http://125.99.122.186:81/member_sms_data/getnumbers.php?category=' + (category),
+                type: 'GET',
+                dataType: 'json',
+                xhrFields: {
+                    // The 'xhrFields' property sets additional fields on the XMLHttpRequest.
+                    // This can be used to set the 'withCredentials' property.
+                    // Set the value to 'true' if you'd like to pass cookies to the server.
+                    // If this is enabled, your server must respond with the header
+                    // 'Access-Control-Allow-Credentials: true'.
+                    withCredentials: false
+                },
+                success: function(json) {
+                    var data = {};
+                    var data_length = 0;
+                    for(var i in json){
+                        data[i] = {
+                            "id": json[i]['id'], "message": json[i]['message'], "number": json[i]['number'], "category": json[i]['category'], "sent_status": json[i]['sent_status'],
+                        }
+                        data_length ++;
+                    }
+                    //CONFIGURATION
+                    var options = {
+                        replaceLineBreaks: false, // true to replace \n by a new line, false by default
+                        android: {
+                            //intent: 'INTENT'  // send SMS with the native android SMS messaging
+                            intent: '' // send SMS without open any other app
+                        }
+                    };
+                    
+                    db.transaction(function(transaction) { transaction.executeSql("DELETE FROM member_data"); });
+                    db.transaction(function(tx){
+                        for (j=0;j<data_length;j++) {
+                            tx.executeSql('INSERT INTO member_data (id, number, category, sent_status) values ("'+data[j]["id"]+'", "'+data[j]["number"]+'", "'+data[j]["category"]+'", "'+data[j]["sent_status"]+'")', nullHandler_get,errorHandler_get);
+                        }        
+                    },errorHandler_get,successCallBack_get);
+                    // db.transaction(function(transaction) { transaction.executeSql('INSERT INTO member_data (id, number, category, sent_status) values ("1", "9987760244", "A", "0");'); });       
+                    // db.transaction(function(transaction) { transaction.executeSql('INSERT INTO member_data (id, number, category, sent_status) values ("2", "9730941488", "A", "0");'); });       
+                    // db.transaction(function(transaction) { transaction.executeSql('INSERT INTO member_data (id, number, category, sent_status) values ("3", "9869788090", "A", "0");'); });       
+                }
+            });
+        }
+
+        function successCallBack_get(){
+            $('#success').append('<br /> Data Imported in WebSqlDB <br />'); 
+        }
+        function nullHandler_get(){
+            console.log('nullHandler_get');
+        }
+        function errorHandler_get(transaction, error){
+            console.log('Error: ' + error.message + ' code: ' + error.code);
+        }
         </script>
     </body>
 </html>
